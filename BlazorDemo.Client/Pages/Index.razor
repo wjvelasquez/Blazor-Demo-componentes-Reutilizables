@@ -1,0 +1,59 @@
+﻿@page "/"
+
+@inject HttpClient HttpClient
+
+<h1>Products</h1>
+
+@if (_categories == null)
+{
+    <text>Cargando</text>
+}
+else
+{
+    <Table Items="_categories">
+        @*<Head>
+            <th class="text-center">Id</th>
+            <th class="text-center">Nombre</th>
+            <th>Descripcion</th>
+        </Head>*@
+        <Body>
+            <td>@context.CategoryId</td>
+            <td>@context.CategoryName</td>
+            <td>@context.Description</td>
+        </Body>
+    </Table>
+}
+
+@if (_products == null)
+{
+    <text>Cargando</text>
+}
+else
+{
+    <Table Items="_products">
+    </Table>
+    @*<Table Items="_products">
+        <Head>
+            <td>Id</td>
+            <td>Nombre</td>
+            <td>Precio</td>
+            <td>Existencia</td>
+            <td>Categoria</td>
+        </Head>
+    </Table>*@
+}
+
+@code{
+    List<Product> _products;
+    List<Category> _categories;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // definbido en program
+        //Uri _uri = new Uri("https://ticapacitacion.com/webapi/northwind/products");
+
+        _products = await HttpClient.GetFromJsonAsync<List<Product>>("products");
+
+        _categories = await HttpClient.GetFromJsonAsync<List<Category>>("categories");
+    }
+}
