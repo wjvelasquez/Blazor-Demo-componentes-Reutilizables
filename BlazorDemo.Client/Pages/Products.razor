@@ -7,12 +7,12 @@
 @*<SelectExa Items="_categories" OnChangeSelect="FilterCategory"></SelectExa>*@
 
 <Select Items="_categories" class="form-control"
-        DefaultOptionText="all"
+        DefaultOptionText="Select category"
         DisplayMemberName="ShowFull"
         ValueMember="CategoryId"
         OnChange="OnChanged">
     <NullItems>
-        cargando...
+        loading...
     </NullItems>
 </Select>
 
@@ -21,7 +21,7 @@
         DisplayMemberName="ProductName"
         ValueMember="ProductId">
     <NullItems>
-      cargando...
+      select category first...
     </NullItems>
 </Select>
 <h2>Productos</h2>
@@ -50,15 +50,15 @@ else
 
     string errorString;
 
-    void FilterCategory(ChangeEventArgs e)
-    {
-        _productsFilter = _products;
+    //void FilterCategory(ChangeEventArgs e)
+    //{
+    //    _productsFilter = _products;
 
-        if (int.TryParse((string)e.Value, out var index) && index >= 0)
-        {
-            _productsFilter = _products.Where(p => p.CategoryID == index).ToList();
-        }
-    }
+    //    if (int.TryParse((string)e.Value, out var index) && index >= 0)
+    //    {
+    //        _productsFilter = _products.Where(p => p.CategoryID == index).ToList();
+    //    }
+    //}
 
     void OnChanged(ChangeEventArgs e)
     {
@@ -72,7 +72,7 @@ else
         }
         else
         {
-            _productsFilter = _products;
+            _productsFilter = null; // new List<ProductModel>();// _products;
         }
     }
 
