@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace BlazorDemo.Client.Models
 {
     
-    public class Product
+    public class ProductModel
     {   
         [DisplayRazorTable(Header = "Id", HeaderClass = "text-center",
             ValueClass ="text-center")]

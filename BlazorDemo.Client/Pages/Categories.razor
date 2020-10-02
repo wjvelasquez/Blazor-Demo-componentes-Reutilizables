@@ -1,0 +1,43 @@
+﻿@page "/categories"
+
+@inject HttpClient HttpClient
+    
+<h1>categories</h1>
+
+<Table Items="_categories">
+    <Head>
+        <th class="text-center">Id</th>
+        <th class="text-center">Name</th>
+        <th>Descripcion</th>
+    </Head>
+    <Body>
+        <td>@context.CategoryId</td>
+        <td>@context.CategoryName</td>
+        <td>@context.Description</td>
+        <td><img src="data:image/bmp;base64, @FixOleDBBase64(context.Picture)" /></td>
+    </Body>
+    <NullItems>
+        cargando...
+    </NullItems>
+    <EmptyItems>
+        Lista vacia.
+    </EmptyItems>
+</Table>
+
+@code {
+    List<Category> _categories;
+
+    public string FixOleDBBase64(string picture)
+    {
+        byte[] image = Convert.FromBase64String(picture);
+        var res = Convert.ToBase64String(image, 78, image.Length - 78);
+        return res;
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        // definbido en program
+        //Uri _uri = new Uri("https://ticapacitacion.com/webapi/northwind/products");
+
+        _categories = await HttpClient.GetFromJsonAsync<List<Category>>("categories");
+    }
+}

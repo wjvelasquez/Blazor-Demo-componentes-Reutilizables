@@ -4,8 +4,9 @@ using System.Text;
 
 namespace BlazorDemo.Components.Attributes
 {
-    public static class Style
+    public class Style : Attribute
     {
-        public static string Color { get; set; }
+        public string Color { get; set; }
+
     }
 }

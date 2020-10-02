@@ -1,0 +1,17 @@
+﻿@typeparam T
+
+<select @attributes="AdditionalAttributes" @onchange="OnChange">
+    @if (Items == null)
+    {
+        <option value="" diseable>@NullItems</option>
+    }
+    else
+    {
+        <option value="">@DefaultOptionText</option>
+        @for (int i = 0; i < Items.Count(); i++)
+        {
+            <option value="@GetValueMember(i)" diseable>@GetDisplayMemberName(i)</option>
+        }
+    }
+
+</select>

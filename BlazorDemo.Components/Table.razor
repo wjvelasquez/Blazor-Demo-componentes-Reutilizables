@@ -1,31 +1,50 @@
 ﻿@typeparam T
 
-<table @attributes="AdditionalAttributes">
-    <thead>
-        <tr>
-            @if (Head != null)
+@if (Items == null)
+{
+    <tr>
+        <td colspan="2">
+            <div class="text-center">@NullItems</div>
+        </td>
+    </tr>    
+}
+else if (Items.Count() == 0)
+{
+    <tr>
+        <td colspan="2">
+            <div class="text-center">@EmptyItems</div>
+        </td>
+    </tr>
+}
+else
+{
+    <table @attributes="AdditionalAttributes">
+        <thead>
+            <tr>
+                @if (Head != null)
+                {
+                    @Head
+                }
+                else
+                {
+                    @_defaultHead
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @if (Body != null)
             {
-                @Head
+                foreach (var item in Items)
+                {
+                    <tr>
+                        @this.Body(item)
+                    </tr>
+                }
             }
             else
             {
-                @_defaultHead
+                @_defaultBody
             }
-        </tr>
-    </thead>
-    <tbody>
-        @if (Body != null)
-        {
-            foreach (var item in Items)
-            {
-                <tr>
-                    @this.Body(item)
-                </tr>
-            }
-        }
-        else
-        {
-            @_defaultBody
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+}

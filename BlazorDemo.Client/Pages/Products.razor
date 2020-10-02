@@ -1,0 +1,88 @@
+﻿@page "/products"
+
+@inject HttpClient HttpClient
+
+
+<h2>Categorias</h2>
+@*<SelectExa Items="_categories" OnChangeSelect="FilterCategory"></SelectExa>*@
+
+<Select Items="_categories" class="form-control"
+        DefaultOptionText="all"
+        DisplayMemberName="ShowFull"
+        ValueMember="CategoryId"
+        OnChange="OnChanged">
+    <NullItems>
+        cargando...
+    </NullItems>
+</Select>
+
+<Select Items="_productsFilter" class="form-control"
+        DefaultOptionText="Select..."
+        DisplayMemberName="ProductName"
+        ValueMember="ProductId">
+    <NullItems>
+      cargando...
+    </NullItems>
+</Select>
+<h2>Productos</h2>
+<h4>categoria seleccionada: @(_category) </h4>
+@if (_productsFilter == null)
+{
+    <Table Items="_products">
+    </Table>
+}
+else
+{
+   
+        <Table Items="_productsFilter">
+            <NullItems>
+                cargando...
+            </NullItems>
+        </Table>
+   
+}
+
+@code{
+    List<ProductModel> _products;
+    List<Category> _categories;
+    int _category;
+    List<ProductModel> _productsFilter;
+
+    string errorString;
+
+    void FilterCategory(ChangeEventArgs e)
+    {
+        _productsFilter = _products;
+
+        if (int.TryParse((string)e.Value, out var index) && index >= 0)
+        {
+            _productsFilter = _products.Where(p => p.CategoryID == index).ToList();
+        }
+    }
+
+    void OnChanged(ChangeEventArgs e)
+    {
+        if (int.TryParse((string)e.Value, out var index) && index >= 0)
+        {
+            _category = (e.Value != null) ? Convert.ToInt32((string)e.Value) : 0;
+
+            _productsFilter = _products;
+
+            _productsFilter = _products.Where(p => p.CategoryID == index).ToList();
+        }
+        else
+        {
+            _productsFilter = _products;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // definbido en program
+        //Uri _uri = new Uri("https://ticapacitacion.com/webapi/northwind/products");
+
+        _products = await HttpClient.GetFromJsonAsync<List<ProductModel>>("products");
+
+        _categories = await HttpClient.GetFromJsonAsync<List<Category>>("categories");
+    }
+}

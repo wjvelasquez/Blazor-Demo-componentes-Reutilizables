@@ -1,59 +1,19 @@
 ﻿@page "/"
 
-@inject HttpClient HttpClient
 
-<h1>Products</h1>
+//otro select por miguel
+//8va sesion 2.22
 
-@if (_categories == null)
-{
-    <text>Cargando</text>
-}
-else
-{
-    <Table Items="_categories">
-        @*<Head>
-            <th class="text-center">Id</th>
-            <th class="text-center">Nombre</th>
-            <th>Descripcion</th>
-        </Head>*@
-        <Body>
-            <td>@context.CategoryId</td>
-            <td>@context.CategoryName</td>
-            <td>@context.Description</td>
-        </Body>
-    </Table>
-}
+<div class="main" style="background-color:aquamarine">
+    <iframe width="640" height="480" title="video de youtube"
+            src="https://www.youtube.com/embed/q7i42xTdMx8?list=PLsi0_y2gnnl5v_1bOfXpr8xU5c7-HJqCn"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media;
+                gyroscope; picture-in-picture" allowfullscreen>
+    </iframe>
+</div>
 
-@if (_products == null)
-{
-    <text>Cargando</text>
-}
-else
-{
-    <Table Items="_products">
-    </Table>
-    @*<Table Items="_products">
-        <Head>
-            <td>Id</td>
-            <td>Nombre</td>
-            <td>Precio</td>
-            <td>Existencia</td>
-            <td>Categoria</td>
-        </Head>
-    </Table>*@
-}
 
 @code{
-    List<Product> _products;
-    List<Category> _categories;
-
-    protected override async Task OnInitializedAsync()
-    {
-        // definbido en program
-        //Uri _uri = new Uri("https://ticapacitacion.com/webapi/northwind/products");
-
-        _products = await HttpClient.GetFromJsonAsync<List<Product>>("products");
-
-        _categories = await HttpClient.GetFromJsonAsync<List<Category>>("categories");
-    }
+    
 }
